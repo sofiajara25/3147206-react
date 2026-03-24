@@ -8,27 +8,34 @@ export default function Input({
         // Contenedor del input que se exporta con label, cuerpo y feedback message
         <div className="w-[320px]">
             {/* Label */}
-            <label
-                className="
+
+            {label && (
+                <label
+                    className="
                     block
-                    text-caption
+                    text-[8px]
                     mb-1
-                    text-text-primary
+                    place-self-start
                  "
-            >
-                {label}
-            </label>
+                >
+                    {label}
+                </label>
+            )}
 
             {/* Contenedor del input */}
-            <div>
-
+            <div
+                className="
+                        relative
+                        h-12
+                        flex
+                        items-center
+                     ">
                 {/* Area interactiva invisible de un input 48px */}
-
                 <div
                     className="
                         absolute
                         inset-0
-                     "
+                    "
                     onMouseDown={(e) => {
                         e.preventDefault();
                         // Mueve el foco al siguiente elemento hermano del elemento atual.
@@ -36,12 +43,12 @@ export default function Input({
                         // `nextSibling` obtiene el siguiente nodo en el DOM (puede ser un input u otro elemento)
                         // `focus()` cambia el foco del usuario hacia ese elemento
                         e.currentTarget.nextSibling.focus();
-                    }}
-                ></div>
+                    }} />
 
                 {/* Area visual del input */}
 
                 <input
+                    type={type}
                     className="
                         relative
                         w-full
@@ -53,19 +60,14 @@ export default function Input({
                         text-base
 
                         focus:outline-none
-                        focus:right-2
-                        focus:right-focus-ring
+                        focus:ring-2
+                        focus:ring-focus-ring
                         focus:border-focus-border
                     "
-                    {...props} 
-                    />
+                    {...props}
+                />
             </div>
-
-            {/* Feedback message */}
-            <div>
-
-            </div>
-
+            {/* Feedback */}
         </div>
-    )
+    );
 };
