@@ -1,4 +1,4 @@
-import UserRegisterForm from "../componentes/UserRegisterFrom";
+import UserRegisterForm from "../componentes/UserRegisterForm";
 
 export default function CreateUserPage() {
     return (
