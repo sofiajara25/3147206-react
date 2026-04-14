@@ -1,6 +1,7 @@
 export default function Input({
     label,
     type = "text",
+    error,
     ...props
 }) {
     // Cuerpo de la función 
@@ -11,12 +12,13 @@ export default function Input({
 
             {label && (
                 <label
-                    className="
-                    block
-                    text-[8px]
-                    mb-1
-                    place-self-start
-                 "
+                    className={`
+                        block
+                        text-[8px]
+                        mb-1
+                        place-self-start
+                        ${error ? "text-red-800" : "text-text-primary"}
+                        `}
                 >
                     {label}
                 </label>
@@ -49,7 +51,7 @@ export default function Input({
 
                 <input
                     type={type}
-                    className="
+                    className={`
                         relative
                         w-full
                         h-12
@@ -59,15 +61,22 @@ export default function Input({
                         px-4
                         text-base
 
+                        hover:
+                        hover:border-2
+                        hover:border-focus-border
+
+
                         focus:outline-none
-                        focus:ring-2
+                        focus:ring-1
                         focus:ring-focus-ring
-                        focus:border-focus-border
-                    "
+
+                        ${error ? "border-red-600" : "border border-border"}
+                    `}
                     {...props}
                 />
             </div>
             {/* Feedback */}
+            {error && <p className="text-caption text-red-800 place-self-start">{error}</p>}
         </div>
     );
 };
