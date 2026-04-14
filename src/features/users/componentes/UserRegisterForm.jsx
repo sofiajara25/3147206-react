@@ -30,43 +30,24 @@ export default function UserRegisterForm() {
                 <div className="grid grid-cols-2 gap-6 my-0 mx-auto ">
                     <Input
                         label="Nombre"
+                        name="userName"
                         placeholder="Ingrese su nombre"
                         onChange={handleNameChange}
                     />
 
                     <Input
-                        label="Nombre"
-                        placeholder="Ingrese su nombre"
-                    />
-
-                    <Input
-                        label="Nombre"
-                        placeholder="Ingrese su nombre"
-                    />
-
-                    <Input
-                        label="Teléfono"
-                        placeholder="Ingrese su teléfono"
-                        type="tel"
-                    />
-
-                    <Input
                         label="Correo"
+                        name="userEmail"
                         placeholder="Ingrese su correo"
                         type="email"
                         onBlur={handleEmailBlur}
                     />
 
                     <Input
-                        label="Contreseña"
-                        placeholder="Ingrese su contraseña"
-                        type="password"
-                    />
-                    
-                    <Input
-                        label="Edad"
-                        placeholder="Ingrese su edad"
-                        type="number"
+                        label="Teléfono"
+                        name="userPhone"
+                        placeholder="Ingrese su teléfono"
+                        type="tel"
                     />
 
                     <Select
@@ -74,6 +55,20 @@ export default function UserRegisterForm() {
                         name="documentType"
                         options={documentTypes}
                     />
+
+                    <Input
+                        label="Número de documento"
+                        name="userDocumentNumber"
+                        placeholder="Ingrese su número de documento"
+                    />
+
+                    <Input
+                        label="Contreseña"
+                        name="userPassword"
+                        placeholder="Ingrese su contraseña"
+                        type="password"
+                    />
+                    
 
                     {/* Actions */}
                     <div className="flex items-end justify-end gap-12">
