@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Input, Button, DeleteCounter2, Select }
+import { Input, Button, DeleteCounter2, Select, Checkbox }
     from "@/shared";
 import { getDocumentType } from "../services/selectServices";
 import { userSchema } from "../schemas/userSchema";
@@ -15,6 +15,11 @@ export default function UserRegisterForm() {
         documentType: "",
         userDocumentNumber: "",
         userPassword: "",
+
+        //Flags booleanos
+        isStaff: false,
+        isActive: true,
+        isSuperUser: false,
     });
 
     const [errors, setErrors] = useState({});
@@ -31,14 +36,14 @@ export default function UserRegisterForm() {
      */
     const handleChange = (e) => {
         // Se obtiene el nombre del campo y su valor 
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
 
         setFormData((prev) => ({
             // Se copian todos loa valores anteriores del estado
             ...prev,
 
             // Se actualiza unicamente lo que cambió
-            [name]: value,
+            [name]: type === "checkbox" ? checked : value,
         }));
     };
 
@@ -53,7 +58,7 @@ export default function UserRegisterForm() {
 
         e.preventDefault();
 
-        const result = userSchema.sefaParse(formData);
+        const result = userSchema.safeParse(formData);
 
         // Si la validación falla
         if (!result.success) {
@@ -144,14 +149,44 @@ export default function UserRegisterForm() {
                         error={errors.userPassword}
                     />
 
+                    <Checkbox
+                        id="isStaff"
+                        name ="isStaff"
+                        label="Es staff"
+                        checked={formData.isStaff}
+                        onChange={handleChange}
+                    />
+
+                    <Checkbox
+                        id="isActive"
+                        name ="isActive"
+                        label="Activo"
+                        checked={formData.isActive}
+                        onChange={handleChange}
+                    />
+
+                    <Checkbox
+                        id="isSuperUser"
+                        name ="isSuperUser"
+                        label="Es Super usuario"
+                        checked={formData.isSuperUser}
+                        onChange={handleChange}
+                    />
+
 
                     {/* Actions */}
                     <div className="flex items-end justify-end gap-12">
-                        <Button variant="secondary" size="sm">
+                        <Button
+                        type ="button" 
+                        variant="primary"
+                         size="sm">
                             Cancelar
                         </Button>
 
-                        <Button variant="secondary" size="md">
+                        <Button
+                        type = "submit" 
+                        variant="secondary"
+                         size="md">
                             Guardar
                         </Button>
                     </div>
