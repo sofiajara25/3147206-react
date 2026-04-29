@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
 
-import { Input, Button, DeleteCounter2, Select, Checkbox }
+import { Input, Button, Select, Checkbox, IconButton, Dropdown,
+    DropdownContent,
+    DropdownItem,
+    DropdownTrigger,  }
     from "@/shared";
 import { getDocumentType } from "../services/selectServices";
 import { userSchema } from "../schemas/userSchema";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { SquareArrowRightEnter, Menu } from "lucide-react";
 
 export default function UserRegisterForm() {
+
+    const navigate = useNavigate();
 
     const [documentTypes, setDocumentTypes] = useState([]);
     const [formData, setFormData] = useState({
@@ -85,13 +92,13 @@ export default function UserRegisterForm() {
 
     return (
         <div>
-            <h1 className="text-text-primary text-2xl mb-6">Regitro de usuarios</h1>
+            <h1 className="text-text-primary text-2xl mb-6 text-center pt-6">Regitro de usuarios</h1>
 
             <form
                 className="grid grid-cols-1 items-center gap-6"
                 onSubmit={handleSubmit}>
                 {/* Inputs */}
-                <div className="grid grid-cols-2 gap-6 my-0 mx-auto ">
+                <div className="grid grid-cols-2 gap-6 my-0 mx-auto border p-[48px] rounded-[6px]">
                     <Input
                         label="Nombre"
                         name="userName"
@@ -151,7 +158,7 @@ export default function UserRegisterForm() {
 
                     <Checkbox
                         id="isStaff"
-                        name ="isStaff"
+                        name="isStaff"
                         label="Es staff"
                         checked={formData.isStaff}
                         onChange={handleChange}
@@ -159,7 +166,7 @@ export default function UserRegisterForm() {
 
                     <Checkbox
                         id="isActive"
-                        name ="isActive"
+                        name="isActive"
                         label="Activo"
                         checked={formData.isActive}
                         onChange={handleChange}
@@ -167,7 +174,7 @@ export default function UserRegisterForm() {
 
                     <Checkbox
                         id="isSuperUser"
-                        name ="isSuperUser"
+                        name="isSuperUser"
                         label="Es Super usuario"
                         checked={formData.isSuperUser}
                         onChange={handleChange}
@@ -177,25 +184,59 @@ export default function UserRegisterForm() {
                     {/* Actions */}
                     <div className="flex items-end justify-end gap-12">
                         <Button
-                        type ="button" 
-                        variant="primary"
-                         size="sm">
+                            type="button"
+                            variant="primary"
+                            size="sm"
+                            onClick={() => navigate(-1)}
+                        >
                             Cancelar
                         </Button>
 
                         <Button
-                        type = "submit" 
-                        variant="secondary"
-                         size="md">
+                            type="submit"
+                            variant="secondary"
+                            size="md">
                             Guardar
                         </Button>
+
+                        {/* Icon Button */}
+                        {/* <Link to="/dashboard">
+                            <IconButton 
+                                variant="ghost"
+                            >
+                                <SquareArrowRightEnter />
+                            </IconButton>
+                        </Link> */}
+
+                        {/* ======== Dropdown ======== */}
+                        <div className="p-10">
+                            <Dropdown>
+                                <DropdownTrigger>
+                                    <IconButton arialLabel="Menú de usuario">
+                                        <Menu/>
+                                    </IconButton>
+                                </DropdownTrigger>
+
+                                <DropdownContent className="right-0 w-48">
+                                    <DropdownItem>
+                                        <Link to="/auth" className="block w-full">
+                                        Autenticación
+                                        </Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <Link to="/dashboard" className="block w-full">
+                                        Panel de control
+                                        </Link>
+                                    </DropdownItem>
+                                </DropdownContent>
+                            </Dropdown>
+                        </div>
+
                     </div>
 
                 </div>
 
             </form>
-
-            <DeleteCounter2 />
 
         </div>
     );

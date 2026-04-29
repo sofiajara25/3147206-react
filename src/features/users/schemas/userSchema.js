@@ -19,7 +19,7 @@ export const userSchema = z.object({
         .string()
         .min(1, "Debe seleccionar un tipo de documento"),
         
-    userDocumentoNumber: z
+    userDocumentNumber: z
         .string()
         .min(5, "Número de documento inválido")
         .max(20, "Número de documento damasiado largo"),
