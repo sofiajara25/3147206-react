@@ -1,33 +1,19 @@
-import { useState, useEffect } from "react";
-import { getDocumentType } from "../services/selectServices"
-import { userSchema } from "../schemas/userSchema";
+import { useState } from "react";
+import { authSchema } from "../schemas/authSchema";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { SquareArrowRightEnter, Menu } from "lucide-react";
 
 import {
   Input,
   Button,
-  DeleteCounter2,
-  Select,
-  Checkbox,
-  IconButton,
-  Dropdown,
-  DropdownTrigger,
-  DropdownItem,
-  DropdownContent,
 } from "@/shared";
 
-export default function UserRegisterForm() {
+export default function Login() {
 
   const navigate = useNavigate();
 
-  const [documentTypes, setDocumentTypes] = useState([]);
   const [formData, setFormData] = useState({
-    userName: "",
     userEmail: "",
-    userPhone: "",
-    userDocumentType: "",
-    userDocumentNumber: "",
     userPassword: "",
 
     // Flags booleanos
@@ -36,10 +22,6 @@ export default function UserRegisterForm() {
     isSuperUser: false,
   });
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    getDocumentType().then(setDocumentTypes);
-  }, []);
 
   // ======================================
   //            Handle Genérico
@@ -70,7 +52,7 @@ export default function UserRegisterForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const result = userSchema.safeParse(formData);
+    const result = authSchema.safeParse(formData);
 
     if (!result.success) {
       // Objeto donde se almacenarán
@@ -95,9 +77,9 @@ export default function UserRegisterForm() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center h-screen ">
       <h1 className="text-text-primary text-2xl mb-6 text-center pt-6">
-        Regitro de usuarios
+        Inicio de Sesión
       </h1>
 
       <form
@@ -105,15 +87,7 @@ export default function UserRegisterForm() {
         onSubmit={handleSubmit}
       >
         {/* Inputs */}
-        <div className="grid grid-cols-2 gap-6 my-auto mx-auto border p-[48px] rounded-[6px] ">
-          <Input
-            label="Nombre"
-            name="userName"
-            placeholder="Ingrese su nombre"
-            value={formData.userName}
-            onChange={handleChange}
-            error={errors.userName}
-          />
+        <div className="grid grid-cols-1 gap-6 my-auto mx-auto border p-[48px] rounded-[6px] ">
 
           <Input
             label="Correo"
@@ -126,34 +100,6 @@ export default function UserRegisterForm() {
           />
 
           <Input
-            label="Teléfono"
-            name="userPhone"
-            placeholder="Ingrese su teléfono"
-            type="tel"
-            value={formData.userPhone}
-            onChange={handleChange}
-            error={errors.userPhone}
-          />
-
-          <Select
-            label="Tipo de documento"
-            name="userDocumentType"
-            options={documentTypes}
-            value={formData.userDocumentType}
-            onChange={handleChange}
-            error={errors.userDocumentType}
-          />
-
-          <Input
-            label="Número de documento"
-            name="userDocumentNumber"
-            placeholder="Ingrese su número de documento"
-            value={formData.userDocumentNumber}
-            onChange={handleChange}
-            error={errors.userDocumentNumber}
-          />
-
-          <Input
             label="Contreseña"
             name="userPassword"
             placeholder="Ingrese su contraseña"
@@ -163,36 +109,15 @@ export default function UserRegisterForm() {
             error={errors.userPassword}
           />
 
-          <Checkbox
-            id="isStaff"
-            name="isStaff"
-            label="Es staff"
-            checked={formData.isStaff}
-            onChange={handleChange}
-          />
-          <Checkbox
-            id="isActive"
-            name="isActive"
-            label="Activo"
-            checked={formData.isActive}
-            onChange={handleChange}
-          />
-          <Checkbox
-            id="isSuperUser"
-            name="isSuperUser"
-            label="Es super usuario"
-            checked={formData.isSuperUser}
-            onChange={handleChange}
-          />
 
           {/* Actions */}
-          <div className="flex items-end justify-end gap-12">
-            <Button variant="secondary" size="sm" onClick={() => navigate(-1)}>
+          <div className="flex items-center justify-center gap-12">
+            <Button variant="secondary" size="sm" >
               Cancelar
             </Button>
 
-            <Button variant="primary" size="md">
-              Guardar
+            <Button variant="primary" size="md" onClick={() => navigate("/dashboard")}>
+              Iniciar
             </Button>
 
             {/* Icon button */}

@@ -15,6 +15,7 @@ export {
     DropdownItem,
     DropdownTrigger,
 } from "./components/DropdownContext"
+export {default as Navbar} from "./layouts/Navbar"
 
 
 
