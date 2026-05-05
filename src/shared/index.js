@@ -16,6 +16,10 @@ export {
     DropdownTrigger,
 } from "./components/DropdownContext"
 export {default as Navbar} from "./layouts/Navbar"
+export {default as Card} from "./components/Card"
+export {default as Switch} from "./components/Switch"
+
+
 
 
 

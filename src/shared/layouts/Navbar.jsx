@@ -2,15 +2,29 @@ import { Search, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
     IconButton,
+    Switch,
     Dropdown,
     DropdownTrigger,
     DropdownItem,
     DropdownContent,
 } from "@/shared";
 import logo from "@/assets/images/Logo1.png";
+import { useState } from "react";
 
 
 export default function Navbar() {
+
+    // Estado que controla el switch
+    const [isActive, setIsActive] = useState(true);
+
+    // Manejador del estado del switch
+    const handleStatusChange = (value) => {
+        setIsActive(value);
+
+        // Aquí generalmente va el llamdo a una API
+        console.log("Nuevo estado", value)
+    }
+
     return (
         <nav className="w-full bg-transparent border-b-2">
             <div className="mx-auto max-w-7xl px-4 ">
@@ -21,6 +35,13 @@ export default function Navbar() {
                             <img src={logo} alt="logo" className="h-12 w-auto" />
                         </Link>
                     </div>
+
+                    {/* Switch */}
+                    <Switch
+                        checked={isActive}
+                        onChange={handleStatusChange}
+                        size="md"
+                    />
 
                     {/* Links de navegación */}
                     <ul className="hidden md:flex items-center gap-6">

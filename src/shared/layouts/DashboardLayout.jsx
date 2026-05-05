@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import heroBg from "@/assets/images/bg-3.jpg";
 import { Navbar }from "@/shared";
+import { HomePage } from "@/features/home";
 
 export default function MainLayout() {
   return (
@@ -14,6 +15,7 @@ export default function MainLayout() {
 
       {/* Contenido dinámico de las páginas */}
       <main>
+        <HomePage/>
         <Outlet/>
       </main>
     </div>
