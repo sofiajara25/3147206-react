@@ -3,6 +3,7 @@ import heroBg from "@/assets/images/bg-3.jpg";
 import { Navbar }from "@/shared";
 import { HomePage } from "@/features/home";
 
+
 export default function MainLayout() {
   return (
     <div className="relative min-h-screen text-text-primary">
@@ -16,6 +17,7 @@ export default function MainLayout() {
       {/* Contenido dinámico de las páginas */}
       <main>
         <HomePage/>
+        {/* <UseMemo/> */}
         <Outlet/>
       </main>
     </div>

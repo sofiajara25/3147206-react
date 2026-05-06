@@ -15,6 +15,7 @@ import {
   DropdownTrigger,
   DropdownItem,
   DropdownContent,
+  FileInput
 } from "@/shared";
 
 export default function UserRegisterForm() {
@@ -29,6 +30,7 @@ export default function UserRegisterForm() {
     userDocumentType: "",
     userDocumentNumber: "",
     userPassword: "",
+    userImage: [],
 
     // Flags booleanos
     isStaff: false,
@@ -49,7 +51,7 @@ export default function UserRegisterForm() {
    */
   const handleChange = (e) => {
     // Se obtiene el nombre del campo y su valor
-    const { name, value, type, checked} = e.target;
+    const { name, value, type, checked } = e.target;
 
     setFormData((prev) => ({
       // Se copian todos los valores anteriores del estado
@@ -185,6 +187,22 @@ export default function UserRegisterForm() {
             onChange={handleChange}
           />
 
+          {/* Contenedor del input */}
+          <div>
+            <h4>Máximo puede subir 12 archivos, archivos permitidos jpg, png, etc</h4>
+
+
+            <FileInput
+              value={formData.userImage}
+              onChange={(files) =>
+                setFormData((prev) => ({ ...prev, userImage: files }))
+              }
+              multiple={true}
+            />
+            {errors.userImage && (
+              <span className="text-red-500 text-sm">{errors.userImage}</span>
+            )}
+          </div>
           {/* Actions */}
           <div className="flex items-end justify-end gap-12">
             <Button variant="secondary" size="sm" onClick={() => navigate(-1)}>
