@@ -17,12 +17,16 @@ export {
 } from "./components/DropdownContext"
 export { default as Navbar } from "./layouts/Navbar"
 export { default as Card } from "./components/Card"
+
 export { default as Switch } from "./components/Switch"
 // export { default as UseMemo } from "./components/UseMemo"
 export { default as FileInput } from "./components/FileInput"
+export { default as SearchField } from "./components/SearchField"
+export {default as DataTable} from "./components/DataTable"
 
 // schemas
 export { fileSchema } from "./schemas/fileSchema"
+
 
 
 

@@ -7,12 +7,24 @@ import {
     DropdownTrigger,
     DropdownItem,
     DropdownContent,
+    SearchField,
 } from "@/shared";
 import logo from "@/assets/images/Logo1.png";
 import { useState } from "react";
 
 
 export default function Navbar() {
+
+    // Componente de búsqueda
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (value) => {
+        console.log("Buscar:", value);
+    };
+
+    const handleClear = () => {
+        console.log("Campo limpiado");
+    };
 
     // Estado que controla el switch
     const [isActive, setIsActive] = useState(true);
@@ -30,17 +42,19 @@ export default function Navbar() {
             <div className="mx-auto max-w-7xl px-4 ">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo de marca */}
-                    <div className="flex items-center">
-                        <Link to={"/"} className="text-h1 font-heading ">
+                    <div className="hidden sm:block items-center">
+                        <Link to={"/dashboard/home"} className="text-h1 font-heading ">
                             <img src={logo} alt="logo" className="h-12 w-auto" />
                         </Link>
                     </div>
 
                     {/* Switch */}
+                    {/* inline-flex: Ocupa solo su contenido, no todo el ancho. */}
                     <Switch
                         checked={isActive}
                         onChange={handleStatusChange}
                         size="md"
+                        className="hidden sm:inline-flex"
                     />
 
                     {/* Links de navegación */}
@@ -67,25 +81,33 @@ export default function Navbar() {
                         </li>
                     </ul>
 
-                    {/* Sección de la derecha: búsqueda +usuario */}
-                    <div className="flex items-center gap-5">
+                    {/* Sección de la derecha: búsqueda + usuario */}
+                    {/* <div className="flex items-center gap-5"> */}
 
-                        {/* Icono de búsqueda */}
+                        {/* Icono de búsqueda
                         <div className="relative hidden sm:block">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
 
                             {/* Input */}
-                            <input
+                        {/* <input
                                 type="text"
                                 placeholder="Buscar"
                                 className="pl-9 pr-4 py-2.5 border rounded-lg text-body focus:outline-none focus:ring-2 focus:ring-text-primary"
                             />
-                        </div>
+                        </div> */}
+
+                        <SearchField
+                            value={search}
+                            onChange={setSearch}
+                            onSubmit={handleSearch}
+                            onClear={handleClear}
+                            placeholder="Buscar productos..."
+                            size="md"
+                            variant="filled"                         
+                            className="w-76"
+                        />
 
                         {/* Icono de usuario */}
-                        <Link>
-
-                        </Link>
                         {/* ======= Dropdown ======= */}
                         <div className="p-10">
                             <Dropdown>
@@ -107,7 +129,7 @@ export default function Navbar() {
                                         </Link>
                                     </DropdownItem>
                                     <DropdownItem>
-                                        <Link to="/login" className="block w-full">
+                                        <Link to="/dashboard/userList" className="block w-full">
                                             Gestión usuarios
                                         </Link>
                                     </DropdownItem>
@@ -121,7 +143,6 @@ export default function Navbar() {
                                     </DropdownItem>
                                 </DropdownContent>
                             </Dropdown>
-                        </div>
                     </div>
                 </div>
             </div>
