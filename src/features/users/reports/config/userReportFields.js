@@ -1,32 +1,32 @@
 export const userReportFields = [
     {
         key: "name",
-        lablel: "Nombre",
-        default: true,
+        label: "Nombre",
+        dafault: true,
     },
     {
         key: "email",
-        lablel: "Email",
-        default: true,
+        label: "Email",
+        dafault: true,
     },
     {
         key: "document_type",
-        lablel: "Tipo de documento",
-        default: true,
+        label: "Tipo de Documento",
+        dafault: true,
     },
     {
         key: "document_number",
-        lablel: "Documento",
-        default: true,
+        label: "Documento",
+        dafault: true,
     },
     {
         key: "phone",
-        lablel: "Telefono",
-        default: false,
+        label: "Teléfono",
+        dafault: false,
     },
     {
         key: "address",
-        lablel: "Direccion",
-        default: false,
+        label: "Dirección",
+        dafault: false,
     },
 ];

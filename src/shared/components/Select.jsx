@@ -7,7 +7,6 @@ export default function Select({
     options = [],
 }) {
 
-
     return (
         <div className="w-[320px]">
 
@@ -39,7 +38,7 @@ export default function Select({
 
                 {options.map((opt) => (
 
-                    <option key={opt.id} value={opt.id}>
+                    <option key={opt.value} value={opt.value}>
                         {opt.label}
                     </option>
 
