@@ -16,16 +16,16 @@ export const userSchema = z.object({
         .string()
         .regex(/^[0-9]{10}$/, "El teléfono debe tener 10 dígitos"),
 
-    documentType: z
+    userDocumentType: z
         .string()
         .min(1, "Debe seleccionar un tipo de documento"),
-        
+
     userDocumentNumber: z
         .string()
         .min(5, "Número de documento inválido")
         .max(20, "Número de documento damasiado largo"),
 
-    userPassword: z 
+    userPassword: z
         .string()
         .min(8, "Contraseña debe tener mínimo 8 caracteres ")
         .regex(/[A-Z]/, "Debe contener al menos una mayúscula")
@@ -33,5 +33,10 @@ export const userSchema = z.object({
         .regex(/[0-9]/, "Debe contener al menos un número")
         .regex(/[^A-Za-z0-9]/, "Debe contener al menos un carácter especial"),
 
-    userImage: fileSchema.shape.files.optional()
+
+    isStaff: z.boolean(),
+    isActive: z.boolean(),
+    isSuperUser: z.boolean(),
+
+    userImage: fileSchema.shape.files.or(z.array(z.instanceof(File)).max(0)).optional()
 })

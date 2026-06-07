@@ -16,7 +16,7 @@ export default function FileInput({
     const isFile = (file) => file.type.startsWith("image/");
 
     const previews = useMemo(
-        () => value.map((file) => (isFile(file) ? URL.createObjectURL(file) : null)), 
+        () => value.map((file) => (isFile(file) ? URL.createObjectURL(file) : null)),
         [value],
     );
 
@@ -70,8 +70,8 @@ export default function FileInput({
                         </div>
                     )}
                     <div className="absolute top-1 right-1 flex flex-col gap-1 opacity-0 group-hover:opacity-100">
-                        <button className="w-7 h-7 bg-white rounded-full text-black text-xs">🔛</button>
-                        <button onClick={() => remove(i)} className="w-7 h-7 bg-white rounded-full text-black text-xs">❌</button>
+                        <button type="button" className="w-7 h-7 bg-white rounded-full text-black text-xs">🔛</button>
+                        <button type="button" onClick={() => remove(i)} className="w-7 h-7 bg-white rounded-full text-black text-xs">❌</button>
                     </div>
                 </div>
             ))}

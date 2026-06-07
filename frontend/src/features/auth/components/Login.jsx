@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { authSchema } from "../schemas/authSchema";
+import { loginSchema } from "../schemas/loginSchema";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { SquareArrowRightEnter, Menu } from "lucide-react";
 
@@ -52,7 +52,7 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const result = authSchema.safeParse(formData);
+    const result = loginSchema.safeParse(formData);
 
     if (!result.success) {
       // Objeto donde se almacenarán

@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import { getDocumentType } from "../services/selectServices"
+import { useState, useEffect} from "react";
+import { getDocumentTypes } from "../services/selectServices";
 import { userSchema } from "../schemas/userSchema";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { SquareArrowRightEnter, Menu } from "lucide-react";
+import { createUser } from "../services/userService";
 
 import {
   Input,
@@ -18,10 +19,12 @@ import {
   FileInput
 } from "@/shared";
 
-export default function UserRegisterForm() {
 
+export default function UserRegisterForm() {
   const navigate = useNavigate();
 
+  // Estados
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [documentTypes, setDocumentTypes] = useState([]);
   const [formData, setFormData] = useState({
     userName: "",
@@ -40,7 +43,7 @@ export default function UserRegisterForm() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    getDocumentType().then(setDocumentTypes);
+    getDocumentTypes().then(setDocumentTypes);
   }, []);
 
   // ======================================
@@ -63,38 +66,87 @@ export default function UserRegisterForm() {
   };
 
   // ======================================
-  //            Handle Submit
-  // ======================================
-  /**
-   * Función que se ejecuta cuando se envía el formulario
-   */
 
-  const handleSubmit = (e) => {
+  //============== HANDLE SUBMIT ==============
+  const handleSubmit = async (e) => {
+    // Evita que el formulario recargue la página
     e.preventDefault();
 
+    // Validamos los datos del formulario contra el esquema Zod
+    // safeParse NO lanza excepción, retorna un objeto controlado
     const result = userSchema.safeParse(formData);
 
+    // Verificar en consola si el esquema está funcionando 
+    console.log(result);
+
+    // Si la validación falla
     if (!result.success) {
-      // Objeto donde se almacenarán
+      // Objeto donde almacenaremos los errores por campo
       const fieldErrors = {};
 
-      // Zod devuelve los errores en un arreglo llamado issues
-      // Se recorren para asociar cada error a su campo correspondiente
+      // Recorremos cada error generado por Zod
       result.error.issues.forEach((issue) => {
-        // contiene la ruta del campo que falló
-        const field = issue.path[0];
-        // Se guarda el mensaje de error en el objeto
-        fieldErrors[field] = issue.message;
+        // issue.path[0] corresponde al nombre del campo
+        // issue.message contiene el mensaje de error definido en el schema
+        fieldErrors[issue.path[0]] = issue.message;
       });
 
+      // Actualizamos el estado de errores para mostrarlos en la UI
       setErrors(fieldErrors);
-      // Se detiene la ejecución porque el formulario tiene errores
+
+      // Cortamos la ejecución: NO se envía nada al backend
+
       return;
     }
 
+    // Si la validación pasa, limpiamos errores previos
     setErrors({});
-    console.log("Usuario válido:", result.data);
+
+    // Activamos estado de envío (útil para deshabilitar el botón)
+    setIsSubmitting(true);
+
+    try {
+      // Llamamos al servicio frontend que consume la API
+      // result.data contiene los datos ya validados por Zod
+      const payload = {
+        ...result.data,
+        userImage: result.data.userImage?.[0]?.name ?? null,
+      };
+      const response = await createUser(payload);
+
+      // Log informativo para desarrollo
+      console.log("Usuario creado:", response);
+
+      // Feedback básico al usuario
+      alert("Usuario creado correctamente");
+
+      // Navegamos a la vista anterior
+      // navigate(-1) equivale a "volver atrás"
+      navigate(-1);
+    } catch (error) {
+      // Capturamos errores de red o errores lanzados por el service
+      console.error("Error:", error.message);
+
+      // Mostramos el mensaje de error al usuario
+      alert(error.message);
+    } finally {
+      // Pase lo que pase, desactivamos el estado de envío
+      setIsSubmitting(false);
+    }
   };
+
+// =======================================================
+
+  let label;
+   // 😂 lógica fuera del JSX
+  if (isSubmitting) {
+    label = "Guardando...";
+  } else {
+    label = "Guardar";
+  }
+
+// =======================================================
+
 
   return (
     <div>
@@ -107,15 +159,16 @@ export default function UserRegisterForm() {
         onSubmit={handleSubmit}
       >
         {/* Inputs */}
-        <div className="
+        <div
+          className="
           grid grid-cols sm:grid-cols-2
-          gap-6 
-          my-auto 
-          mx-auto 
-          border 
-          p-[48px] 
-          rounded-[6px] 
-        ">
+          gap-6
+          mx-auto
+          border
+          p-6 sm:p-[48px]
+          rounded-[6px]
+        "
+        >
           <Input
             label="Nombre"
             name="userName"
@@ -164,7 +217,7 @@ export default function UserRegisterForm() {
           />
 
           <Input
-            label="Contreseña"
+            label="Contraseña"
             name="userPassword"
             placeholder="Ingrese su contraseña"
             type="password"
@@ -187,6 +240,7 @@ export default function UserRegisterForm() {
             checked={formData.isActive}
             onChange={handleChange}
           />
+
           <Checkbox
             id="isSuperUser"
             name="isSuperUser"
@@ -197,9 +251,9 @@ export default function UserRegisterForm() {
 
           {/* Contenedor del input */}
           <div>
-            <h4>Máximo puede subir 12 archivos, archivos permitidos jpg, png, etc</h4>
-
-
+            <h4>
+              Máximo puede subir 12 archivos, archivos permitidos jpg, png etc
+            </h4>
             <FileInput
               value={formData.userImage}
               onChange={(files) =>
@@ -211,32 +265,17 @@ export default function UserRegisterForm() {
               <span className="text-red-500 text-sm">{errors.userImage}</span>
             )}
           </div>
+
           {/* Actions */}
           <div className="flex items-end justify-end gap-12">
-            <Button variant="secondary" size="sm" onClick={() => navigate(-1)}>
+            <Button variant="secondary" size="sm" type="button" onClick={() => navigate(-1)}>
               Cancelar
             </Button>
 
-            <Button variant="primary" size="md">
-              Guardar
+            <Button variant="primary" size="md" type="submit" disabled={isSubmitting}>
+              {label}
+              {/* {isSubmitting ? "Guardando..." : "Guardar"} */}
             </Button>
-
-            {/* Icon button */}
-            {/* <Link to="/dashboard">
-              <IconButton variant="ghost">
-                <SquareArrowRightEnter />
-              </IconButton>
-            </Link> */}
-
-            {/* <a href="/DashboardLayout">
-              <IconButton>
-                <SquareArrowRightEnter />
-              </IconButton>
-            </a> */}
-
-            {/* <IconButton onClick={() => navigate("/DashboardLayout")}>
-                <SquareArrowRightEnter />
-              </IconButton> */}
           </div>
         </div>
       </form>

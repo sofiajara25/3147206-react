@@ -32,17 +32,18 @@ export default function Button({
 
   return(
 
-    <button 
+    <button
         className= {`
             relative
             inline-flex items-center justify-center
             rounded-md
             transition-colors
             ${variants[variant]}
-            ${sizes[size]}
+            ${sizes[size]} 
             ${type}
-            `}            
-            {...props}            
+                `}
+            // type={type}
+            {...props}
             >
             {children}
     </button>
