@@ -1,5 +1,5 @@
 import { Search, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     IconButton,
     Switch,
@@ -11,9 +11,17 @@ import {
 } from "@/shared";
 import logo from "@/assets/images/Logo1.png";
 import { useState } from "react";
+import { logout } from "@/features/auth/services/logoutService.js";
 
 
 export default function Navbar() {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/auth");
+    };
 
     // Componente de búsqueda
     const [search, setSearch] = useState("");
@@ -84,65 +92,55 @@ export default function Navbar() {
                     {/* Sección de la derecha: búsqueda + usuario */}
                     {/* <div className="flex items-center gap-5"> */}
 
-                        {/* Icono de búsqueda
+                    {/* Icono de búsqueda
                         <div className="relative hidden sm:block">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
 
                             {/* Input */}
-                        {/* <input
+                    {/* <input
                                 type="text"
                                 placeholder="Buscar"
                                 className="pl-9 pr-4 py-2.5 border rounded-lg text-body focus:outline-none focus:ring-2 focus:ring-text-primary"
                             />
                         </div> */}
 
-                        <SearchField
-                            value={search}
-                            onChange={setSearch}
-                            onSubmit={handleSearch}
-                            onClear={handleClear}
-                            placeholder="Buscar productos..."
-                            size="md"
-                            variant="filled"                         
-                            className="w-76"
-                        />
+                    <SearchField
+                        value={search}
+                        onChange={setSearch}
+                        onSubmit={handleSearch}
+                        onClear={handleClear}
+                        placeholder="Buscar productos..."
+                        size="md"
+                        variant="filled"
+                        className="w-76"
+                    />
 
-                        {/* Icono de usuario */}
-                        {/* ======= Dropdown ======= */}
-                        <div className="p-10">
-                            <Dropdown>
-                                <DropdownTrigger>
-                                    <IconButton ariaLabel="Menú de usuario">
-                                        <User />
-                                    </IconButton>
-                                </DropdownTrigger>
+                    {/* Icono de usuario */}
+                    {/* ======= Dropdown ======= */}
+                    <div className="p-10">
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <IconButton ariaLabel="Menú de usuario">
+                                    <User />
+                                </IconButton>
+                            </DropdownTrigger>
 
-                                <DropdownContent className="right-0 w-48">
-                                    <DropdownItem>
-                                        <Link to="/dashboard/auth" className="block w-full">
-                                            Cerrar sesión
-                                        </Link>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <Link to="/dashboard" className="block w-full">
-                                            Panel de control
-                                        </Link>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <Link to="/dashboard/userList" className="block w-full">
-                                            Gestión usuarios
-                                        </Link>
-                                    </DropdownItem>
-
-                                    <DropdownItem
-                                        onClick={() => {
-                                            console.log("Cerrar sesión");
-                                        }}
-                                    >
-                                        Cerrar sesión
-                                    </DropdownItem>
-                                </DropdownContent>
-                            </Dropdown>
+                            <DropdownContent className="right-0 w-48">
+                                <DropdownItem onClick={handleLogout}>
+                                    Cerrar sesión
+                                </DropdownItem>
+                                <DropdownItem>
+                                    <Link to="/dashboard" className="block w-full">
+                                        Panel de control
+                                    </Link>
+                                </DropdownItem>
+                                <DropdownItem>
+                                    <Link to="/dashboard/userList" className="block w-full">
+                                        Gestión usuarios
+                                    </Link>
+                                </DropdownItem>
+                            </DropdownContent>
+                        </Dropdown>
                     </div>
                 </div>
             </div>

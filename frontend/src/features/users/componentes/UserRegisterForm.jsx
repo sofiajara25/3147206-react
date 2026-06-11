@@ -1,21 +1,15 @@
 import { useState, useEffect} from "react";
 import { getDocumentTypes } from "../services/selectServices";
 import { userSchema } from "../schemas/userSchema";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { SquareArrowRightEnter, Menu } from "lucide-react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { createUser } from "../services/userService";
 
 import {
   Input,
   Button,
-  DeleteCounter2,
   Select,
   Checkbox,
   IconButton,
-  Dropdown,
-  DropdownTrigger,
-  DropdownItem,
-  DropdownContent,
   FileInput
 } from "@/shared";
 
@@ -108,11 +102,7 @@ export default function UserRegisterForm() {
     try {
       // Llamamos al servicio frontend que consume la API
       // result.data contiene los datos ya validados por Zod
-      const payload = {
-        ...result.data,
-        userImage: result.data.userImage?.[0]?.name ?? null,
-      };
-      const response = await createUser(payload);
+      const response = await createUser(result.data);
 
       // Log informativo para desarrollo
       console.log("Usuario creado:", response);
@@ -195,7 +185,7 @@ export default function UserRegisterForm() {
             type="tel"
             value={formData.userPhone}
             onChange={handleChange}
-            error={errors.userPhone}
+            error=   {errors.userPhone}
           />
 
           <Select

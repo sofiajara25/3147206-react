@@ -25,7 +25,10 @@ export { default as SearchField } from "./components/SearchField"
 export {default as DataTable} from "./components/DataTable"
 
 // schemas
-export { fileSchema } from "./schemas/fileSchema"
+export { fileSchema } from "./schemas/fileSchema";
+
+// auth
+export {default as ProtectedRoute} from "./auth/ProtectedRoute"
 
 
 

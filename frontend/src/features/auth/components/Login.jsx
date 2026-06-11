@@ -2,6 +2,7 @@ import { useState } from "react";
 import { loginSchema } from "../schemas/loginSchema";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { SquareArrowRightEnter, Menu } from "lucide-react";
+import { login } from "../services/authService";
 
 import {
   Input,
@@ -15,11 +16,6 @@ export default function Login() {
   const [formData, setFormData] = useState({
     userEmail: "",
     userPassword: "",
-
-    // Flags booleanos
-    isStaff: false,
-    isActive: true,
-    isSuperUser: false,
   });
   const [errors, setErrors] = useState({});
 
@@ -49,7 +45,7 @@ export default function Login() {
    * Función que se ejecuta cuando se envía el formulario
    */
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const result = loginSchema.safeParse(formData);
@@ -62,9 +58,8 @@ export default function Login() {
       // Se recorren para asociar cada error a su campo correspondiente
       result.error.issues.forEach((issue) => {
         // contiene la ruta del campo que falló
-        const field = issue.path[0];
         // Se guarda el mensaje de error en el objeto
-        fieldErrors[field] = issue.message;
+        fieldErrors[issue.path[0]] = issue.message;
       });
 
       setErrors(fieldErrors);
@@ -73,7 +68,17 @@ export default function Login() {
     }
 
     setErrors({});
-    console.log("Usuario válido:", result.data);
+
+    try {
+      const data = await login(result.data);
+
+      sessionStorage.setItem("token", data.token); // clave 
+
+      // navigate("/"); // o dashboard
+      navigate("/dashboard/userList");
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -116,7 +121,7 @@ export default function Login() {
               Cancelar
             </Button>
 
-            <Button variant="primary" size="md" onClick={() => navigate("/dashboard")}>
+            <Button variant="primary" size="md" type="submit">
               Iniciar
             </Button>
 
