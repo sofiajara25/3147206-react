@@ -130,13 +130,13 @@ export default function Navbar() {
                                     Cerrar sesión
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <Link to="/dashboard" className="block w-full">
-                                        Panel de control
+                                    <Link to="/dashboard/userList" className="block w-full">
+                                        Gestión usuarios
                                     </Link>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <Link to="/dashboard/userList" className="block w-full">
-                                        Gestión usuarios
+                                    <Link to="/dashboard/access" className="block w-full">
+                                        Admin
                                     </Link>
                                 </DropdownItem>
                             </DropdownContent>
