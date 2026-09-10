@@ -1,8 +1,9 @@
 // frontend/src/features/access/services/permissionsService.js
 // correcion: agregando getAllPermissions()
+import {API_URL} from "@features/config";
 
-const GROUPS_API_URL = "http://localhost:4000/api/groups";
-const PERMISSIONS_API_URL = "http://localhost:4000/api/permissions"
+const GROUPS_API_URL = `${API_URL}/groups`;
+const PERMISSIONS_API_URL = `${API_URL}/permissions`
 
 export async function getGroupPermissions(groupId) {
     const response = await fetch(`${GROUPS_API_URL}/${groupId}/permissions`);
