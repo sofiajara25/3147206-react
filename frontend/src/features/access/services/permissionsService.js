@@ -1,6 +1,6 @@
 // frontend/src/features/access/services/permissionsService.js
 // correcion: agregando getAllPermissions()
-import {API_URL} from "@features/config";
+import {API_URL} from "@/features/config";
 
 const GROUPS_API_URL = `${API_URL}/groups`;
 const PERMISSIONS_API_URL = `${API_URL}/permissions`

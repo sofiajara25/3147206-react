@@ -2,7 +2,7 @@
 
 // const API_URL = "http://localhost:4000/api/groups";
 
-import {API_URL} from "@features/config";
+import {API_URL} from "@/features/config";
 
 const GROUPS_API_URL = `${API_URL}/groups`;
 

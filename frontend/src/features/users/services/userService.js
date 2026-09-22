@@ -3,7 +3,7 @@
 // En producción debería provenir de variables de entorno
 // const API_URL = "http://localhost:4000/api/users";
 
-import {API_URL} from "@features/config";
+import {API_URL} from "@/features/config";
 
 const USERS_API_URL = `${API_URL}/users`;
 // Función para crear un usuario en el backend
