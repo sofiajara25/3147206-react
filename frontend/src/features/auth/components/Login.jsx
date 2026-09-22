@@ -84,7 +84,7 @@ export default function Login() {
   return (
     <div className="flex flex-col justify-center h-screen ">
       <h1 className="text-text-primary text-2xl mb-6 text-center pt-6">
-        Inicio de Sesión
+        Inicio de sesión grupo 2
       </h1>
 
       <form
